@@ -42,6 +42,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -61,6 +62,7 @@ import androidx.navigation.navArgument
 import com.example.busschedule.R
 import com.example.busschedule.data.BusSchedule
 import com.example.busschedule.ui.theme.BusScheduleTheme
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -148,14 +150,23 @@ fun RouteScheduleScreen(
     busSchedules: List<BusSchedule>,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
-    onBack: () -> Unit = {}
+    onBack: () -> Unit = {},
+    viewModel: BusScheduleViewModel = viewModel(factory = BusScheduleViewModel.factory)
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
+
     BackHandler { onBack() }
     BusScheduleScreen(
         busSchedules = busSchedules,
         modifier = modifier,
         contentPadding = contentPadding,
-        stopName = stopName
+        stopName = stopName,
+        onScheduleClick = {
+            coroutineScope.launch {
+                viewModel.getScheduleFor(stopName)
+            }
+        }
     )
 }
 
