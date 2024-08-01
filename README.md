@@ -4,4 +4,4 @@ This repository showcases my experience with persisting data using the SQLite da
 
 ## Main technologies
 
-Kotlin, Jetpack Compose, SQLite, Kotlin flows
+Kotlin, Jetpack Compose, SQLite, Kotlin flows, Room library
